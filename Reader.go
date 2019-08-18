@@ -28,7 +28,6 @@ package reader
 // Library helps to get rid of such Stupidity of the Developers of the Language.
 
 import (
-	"bufio"
 	"io"
 )
 
@@ -39,6 +38,5 @@ const (
 )
 
 type Reader struct {
-	reader      io.Reader
-	bufioReader *bufio.Reader
+	reader io.Reader
 }

@@ -35,7 +35,4 @@ func Test_New(t *testing.T) {
 	if result.reader != reader {
 		t.FailNow()
 	}
-	if result.bufioReader == nil {
-		t.FailNow()
-	}
 }

@@ -20,7 +20,6 @@
 package reader
 
 import (
-	"bufio"
 	"io"
 )
 
@@ -33,7 +32,6 @@ func New(
 	result = new(Reader)
 
 	result.reader = reader
-	result.bufioReader = bufio.NewReader(result.reader)
 
 	return result
 }
