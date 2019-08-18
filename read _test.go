@@ -23,6 +23,8 @@ import (
 	"bytes"
 	"io"
 	"testing"
+
+	"github.com/vault-thirteen/tester"
 )
 
 func Test_ReadLineEndingWithCRLF(t *testing.T) {
@@ -33,6 +35,9 @@ func Test_ReadLineEndingWithCRLF(t *testing.T) {
 	var reader2 *Reader
 	var result []byte
 	var resultExpected []byte
+	var tst *tester.Test
+
+	tst = tester.New(t)
 
 	// Test #1. Normal Data.
 
@@ -50,14 +55,8 @@ func Test_ReadLineEndingWithCRLF(t *testing.T) {
 	reader1 = bytes.NewReader(data)
 	reader2 = New(reader1)
 	result, err = reader2.ReadLineEndingWithCRLF()
-	if err != nil {
-		t.Error("Test #1")
-		t.FailNow()
-	}
-	if !bytes.Equal(result, resultExpected) {
-		t.Error("Test #1")
-		t.FailNow()
-	}
+	tst.MustBeNoError(err)
+	tst.MustBeEqual(result, resultExpected)
 
 	// Test #2. Data is not enough.
 
@@ -75,14 +74,9 @@ func Test_ReadLineEndingWithCRLF(t *testing.T) {
 	reader1 = bytes.NewReader(data)
 	reader2 = New(reader1)
 	result, err = reader2.ReadLineEndingWithCRLF()
-	if err != io.EOF {
-		t.Error("Test #2")
-		t.FailNow()
-	}
-	if !bytes.Equal(result, resultExpected) {
-		t.Error("Test #2")
-		t.FailNow()
-	}
+	tst.MustBeAnError(err)
+	tst.MustBeEqual(err.Error(), io.EOF.Error())
+	tst.MustBeEqual(result, resultExpected)
 
 	// Test #3. Empty Data.
 
@@ -94,12 +88,32 @@ func Test_ReadLineEndingWithCRLF(t *testing.T) {
 	reader1 = bytes.NewReader(data)
 	reader2 = New(reader1)
 	result, err = reader2.ReadLineEndingWithCRLF()
-	if err != io.EOF {
-		t.Error("Test #3")
-		t.FailNow()
-	}
-	if !bytes.Equal(result, resultExpected) {
-		t.Error("Test #3")
-		t.FailNow()
-	}
+	tst.MustBeAnError(err)
+	tst.MustBeEqual(err.Error(), io.EOF.Error())
+	tst.MustBeEqual(result, resultExpected)
+
+	// Test #4. Normal Data. Double Read.
+
+	// Prepare the Data.
+	data = []byte("ABC")
+	data = append(data, CR, LF)
+	data = append(data, []byte("DEF")...)
+	data = append(data, CR, LF)
+	data = append(data, []byte("XYZ")...)
+
+	// Run the Test.
+	reader1 = bytes.NewReader(data)
+	reader2 = New(reader1)
+
+	// Part 1.
+	resultExpected = []byte("ABC\r\n")
+	result, err = reader2.ReadLineEndingWithCRLF()
+	tst.MustBeNoError(err)
+	tst.MustBeEqual(result, resultExpected)
+
+	// Part 2.
+	resultExpected = []byte("DEF\r\n")
+	result, err = reader2.ReadLineEndingWithCRLF()
+	tst.MustBeNoError(err)
+	tst.MustBeEqual(result, resultExpected)
 }
