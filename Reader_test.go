@@ -1,6 +1,8 @@
+// Reader_test.go.
+
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Copyright © 2019 by Vault Thirteen.
+// Copyright © 2019..2020 by Vault Thirteen.
 //
 // All rights reserved. No part of this publication may be reproduced,
 // distributed, or transmitted in any form or by any means, including
@@ -25,13 +27,13 @@ import (
 	"testing"
 )
 
-func Test_New(t *testing.T) {
+func Test_NewReader(t *testing.T) {
 
 	var reader io.Reader
 	var result *Reader
 
 	reader = bytes.NewReader([]byte{})
-	result = New(reader)
+	result = NewReader(reader)
 	if result.reader != reader {
 		t.FailNow()
 	}

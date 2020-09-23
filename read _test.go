@@ -1,6 +1,8 @@
+// read_test.go.
+
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Copyright © 2019 by Vault Thirteen.
+// Copyright © 2019..2020 by Vault Thirteen.
 //
 // All rights reserved. No part of this publication may be reproduced,
 // distributed, or transmitted in any form or by any means, including
@@ -53,7 +55,7 @@ func Test_ReadLineEndingWithCRLF(t *testing.T) {
 
 	// Run the Test.
 	reader1 = bytes.NewReader(data)
-	reader2 = New(reader1)
+	reader2 = NewReader(reader1)
 	resultExpected = data[0:13]
 	result, err = reader2.ReadLineEndingWithCRLF()
 	tst.MustBeNoError(err)
@@ -77,7 +79,7 @@ func Test_ReadLineEndingWithCRLF(t *testing.T) {
 
 	// Run the Test.
 	reader1 = bytes.NewReader(data)
-	reader2 = New(reader1)
+	reader2 = NewReader(reader1)
 	result, err = reader2.ReadLineEndingWithCRLF()
 	tst.MustBeAnError(err)
 	tst.MustBeEqual(err.Error(), io.EOF.Error())
@@ -91,7 +93,7 @@ func Test_ReadLineEndingWithCRLF(t *testing.T) {
 
 	// Run the Test.
 	reader1 = bytes.NewReader(data)
-	reader2 = New(reader1)
+	reader2 = NewReader(reader1)
 	result, err = reader2.ReadLineEndingWithCRLF()
 	tst.MustBeAnError(err)
 	tst.MustBeEqual(err.Error(), io.EOF.Error())
@@ -105,7 +107,7 @@ func Test_ReadLineEndingWithCRLF(t *testing.T) {
 
 	// Run the Test.
 	reader1 = bytes.NewReader(data)
-	reader2 = New(reader1)
+	reader2 = NewReader(reader1)
 	result, err = reader2.ReadLineEndingWithCRLF()
 	tst.MustBeNoError(err)
 	tst.MustBeEqual(result, resultExpected)
@@ -131,7 +133,7 @@ func Test_ReadBytes(t *testing.T) {
 
 	// Run the Test.
 	reader1 = bytes.NewReader(data)
-	reader2 = New(reader1)
+	reader2 = NewReader(reader1)
 	result, err = reader2.ReadBytes(3)
 	tst.MustBeNoError(err)
 	tst.MustBeEqual(result, resultExpected)
@@ -144,7 +146,7 @@ func Test_ReadBytes(t *testing.T) {
 
 	// Run the Test.
 	reader1 = bytes.NewReader(data)
-	reader2 = New(reader1)
+	reader2 = NewReader(reader1)
 	result, err = reader2.ReadBytes(100)
 	tst.MustBeAnError(err)
 	tst.MustBeEqual(err.Error(), io.ErrUnexpectedEOF.Error())
@@ -158,7 +160,7 @@ func Test_ReadBytes(t *testing.T) {
 
 	// Run the Test.
 	reader1 = bytes.NewReader(data)
-	reader2 = New(reader1)
+	reader2 = NewReader(reader1)
 	result, err = reader2.ReadBytes(3)
 	tst.MustBeAnError(err)
 	tst.MustBeEqual(err.Error(), io.EOF.Error())
@@ -173,7 +175,7 @@ func Test_ReadBytes(t *testing.T) {
 
 	// Run the Test.
 	reader1 = bytes.NewReader(data)
-	reader2 = New(reader1)
+	reader2 = NewReader(reader1)
 
 	// Part 1.
 	resultExpected = []byte("ABC\r\n")

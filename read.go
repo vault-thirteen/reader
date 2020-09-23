@@ -1,6 +1,8 @@
+// read.go.
+
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Copyright © 2019 by Vault Thirteen.
+// Copyright © 2019..2020 by Vault Thirteen.
 //
 // All rights reserved. No part of this publication may be reproduced,
 // distributed, or transmitted in any form or by any means, including
@@ -68,6 +70,7 @@ func (r *Reader) ReadLineEndingWithCRLF() ([]byte, error) {
 	return line, nil
 }
 
+// Tries to read an exact Number of Bytes.
 func (r *Reader) ReadBytes(
 	size int,
 ) ([]byte, error) {
